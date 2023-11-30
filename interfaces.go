@@ -142,6 +142,18 @@ type CallMsg struct {
 	AccessList types.AccessList // EIP-2930 access list.
 }
 
+//type CallBundleMsg struct {
+//	Txs              []CallMsg
+//	BlockNumber      int64
+//	StateBlockNumber int64
+//	Coinbase         *common.Address
+//	Timestamp        *uint64
+//	Timeout          *uint64
+//	GasLimit         *uint64
+//	Difficulty       *big.Int
+//	BaseFee          *big.Int
+//}
+
 // A ContractCaller provides contract calls, essentially transactions that are executed by
 // the EVM but not mined into the blockchain. ContractCall is a low-level method to
 // execute such calls. For applications which are structured around specific contracts,

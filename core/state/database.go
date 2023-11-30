@@ -20,7 +20,6 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/crate-crypto/go-ipa/banderwagon"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/lru"
 	"github.com/ethereum/go-ethereum/core/rawdb"
@@ -29,7 +28,6 @@ import (
 	"github.com/ethereum/go-ethereum/ethdb"
 	"github.com/ethereum/go-ethereum/trie"
 	"github.com/ethereum/go-ethereum/trie/trienode"
-	"github.com/ethereum/go-ethereum/trie/utils"
 )
 
 const (
@@ -40,10 +38,10 @@ const (
 	codeCacheSize = 64 * 1024 * 1024
 
 	// commitmentSize is the size of commitment stored in cache.
-	commitmentSize = banderwagon.UncompressedSize
+	//commitmentSize = banderwagon.UncompressedSize
 
 	// Cache item granted for caching commitment results.
-	commitmentCacheItems = 64 * 1024 * 1024 / (commitmentSize + common.AddressLength)
+	//commitmentCacheItems = 64 * 1024 * 1024 / (commitmentSize + common.AddressLength)
 )
 
 // Database wraps access to tries and contract code.
@@ -177,10 +175,18 @@ type cachingDB struct {
 }
 
 // OpenTrie opens the main account trie at a specific root hash.
+//
+//	func (db *cachingDB) OpenTrie(root common.Hash) (Trie, error) {
+//		if db.triedb.IsVerkle() {
+//			return trie.NewVerkleTrie(root, db.triedb, utils.NewPointCache(commitmentCacheItems))
+//		}
+//		tr, err := trie.NewStateTrie(trie.StateTrieID(root), db.triedb)
+//		if err != nil {
+//			return nil, err
+//		}
+//		return tr, nil
+//	}
 func (db *cachingDB) OpenTrie(root common.Hash) (Trie, error) {
-	if db.triedb.IsVerkle() {
-		return trie.NewVerkleTrie(root, db.triedb, utils.NewPointCache(commitmentCacheItems))
-	}
 	tr, err := trie.NewStateTrie(trie.StateTrieID(root), db.triedb)
 	if err != nil {
 		return nil, err

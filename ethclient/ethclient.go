@@ -614,6 +614,15 @@ func (ec *Client) EstimateGas(ctx context.Context, msg ethereum.CallMsg) (uint64
 	return uint64(hex), nil
 }
 
+//func (ec *Client) EstimateGasBundle(ctx context.Context, msg ethereum.CallBundleMsg) (uint64, error) {
+//	var hex hexutil.Uint64
+//	err := ec.c.CallContext(ctx, &hex, "eth_estimateGasBundle", toCallBundleArg(msg))
+//	if err != nil {
+//		return 0, err
+//	}
+//	return uint64(hex), nil
+//}
+
 // SendTransaction injects a signed transaction into the pending pool for execution.
 //
 // If the transaction was a contract creation use the TransactionReceipt method to get the
@@ -666,6 +675,43 @@ func toCallArg(msg ethereum.CallMsg) interface{} {
 	}
 	return arg
 }
+
+//func toCallBundleArg(msg ethereum.CallBundleMsg) interface{} {
+//	arg := map[string]interface{}{}
+//	//txMsgs := make(ethereum.CallMsg, 2)
+//	//txMsgs := []ethereum.CallMsg{}
+//	s := make([]interface{}, len(msg.Txs))
+//	for _, txCallMsg := range msg.Txs {
+//		s = append(s, toCallArg(txCallMsg))
+//	}
+//	arg["txs"] = s
+//
+//	if msg.BlockNumber != 0 {
+//		arg["blockNumber"] = hexutil.Uint64(msg.BlockNumber)
+//	}
+//	if msg.StateBlockNumber != 0 {
+//		arg["stateBlockNumber"] = hexutil.Uint64(msg.StateBlockNumber)
+//	}
+//	if msg.Coinbase != nil {
+//		arg["coinbase"] = msg.Coinbase
+//	}
+//	if msg.GasLimit != nil {
+//		arg["gasLimit"] = (*hexutil.Uint64)(msg.GasLimit)
+//	}
+//	if msg.Difficulty != nil {
+//		arg["difficulty"] = (*hexutil.Big)(msg.Difficulty)
+//	}
+//	if msg.BaseFee != nil {
+//		arg["baseFee"] = (*hexutil.Big)(msg.BaseFee)
+//	}
+//	if msg.Timestamp != nil {
+//		arg["timestamp"] = (*hexutil.Uint64)(msg.Timestamp)
+//	}
+//	if msg.Timeout != nil {
+//		arg["timeout"] = (*hexutil.Uint64)(msg.Timeout)
+//	}
+//	return arg
+//}
 
 // rpcProgress is a copy of SyncProgress with hex-encoded fields.
 type rpcProgress struct {

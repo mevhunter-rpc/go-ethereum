@@ -111,9 +111,14 @@ func (oracle *Oracle) processBlock(bf *blockFees, percentiles []float64) {
 		reward, _ := tx.EffectiveGasTip(bf.block.BaseFee())
 		sorter[i] = txGasAndReward{gasUsed: bf.receipts[i].GasUsed, reward: reward}
 	}
+
 	slices.SortStableFunc(sorter, func(a, b txGasAndReward) int {
 		return a.reward.Cmp(b.reward)
 	})
+
+	//slices.SortStableFunc(sorter, func(a, b txGasAndReward) bool {
+	//	return a.reward.Cmp(b.reward) < 0
+	//}) //revised by abel
 
 	var txIndex int
 	sumGasUsed := sorter[0].gasUsed
